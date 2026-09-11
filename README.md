@@ -4,7 +4,7 @@ Projeto da disciplina  Algoritmo e Estrutura de Dados, sistema bancário feito e
 
 ## Integrantes
 
-- Ana Clara Fornellos
+- Anna Clara Fornellos
 - Fabiana Lima
 
 ## O que o sistema faz
