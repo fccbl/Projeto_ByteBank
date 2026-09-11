@@ -1,6 +1,6 @@
 # ByteBank
 
-Projeto da disciplina BD015 - Algoritmo e Estrutura de Dados, sistema bancário simples feito em Python.
+Projeto da disciplina  Algoritmo e Estrutura de Dados, sistema bancário feito em Python.
 
 ## Integrantes
 
@@ -19,12 +19,4 @@ O programa roda em um menu que fica repetindo até o usuário escolher sair. Ele
 
 Mais pra frente o projeto vai ganhar múltiplas contas, transferência PIX, extrato com estorno e fila de pagamentos agendados.
 
-## Como executar
 
-É só ter o Python instalado e rodar:
-
-```
-python main.py
-```
-
-No menu, digite o número da opção desejada.
