@@ -35,12 +35,22 @@ def escolher_categoria():
     return "Outros"
 
 
-def registrar_historico(conta, tipo, valor, categoria):
-    conta["historico"].append({"tipo": tipo, "valor": valor, "categoria": categoria})
+def registrar_historico(conta, tipo, valor, categoria=None, destino=None, detalhes=None):
+    conta["historico"].append(
+        {
+            "tipo": tipo,
+            "valor": valor,
+            "categoria": categoria,
+            "destino": destino,
+            "detalhes": detalhes,
+        }
+    )
 
 
 def adicionar_pontos(conta, valor):
-    conta["pontos"] += int(valor // 10)
+    pontos_ganhos = int(valor // 10)
+    conta["pontos"] += pontos_ganhos
+    return pontos_ganhos
 
 
 def consultar_saldo():
@@ -61,6 +71,7 @@ def depositar():
         return
 
     conta["saldo"] += valor
+    registrar_historico(conta, "Depósito", valor)
     print(f"Depósito de R$ {valor:.2f} realizado com sucesso para {conta['nome']}.")
 
 
@@ -79,8 +90,8 @@ def sacar():
 
     categoria = escolher_categoria()
     conta["saldo"] -= valor
-    registrar_historico(conta, "Saque", valor, categoria)
-    adicionar_pontos(conta, valor)
+    pontos_ganhos = adicionar_pontos(conta, valor)
+    registrar_historico(conta, "Saque", valor, categoria, detalhes={"pontos_ganhos": pontos_ganhos})
     print(f"Saque de R$ {valor:.2f} realizado com sucesso de {conta['nome']}.")
 
 
@@ -112,8 +123,15 @@ def transferir():
     categoria = escolher_categoria()
     conta_origem["saldo"] -= valor
     conta_destino["saldo"] += valor
-    registrar_historico(conta_origem, "Transferência", valor, categoria)
-    adicionar_pontos(conta_origem, valor)
+    pontos_ganhos = adicionar_pontos(conta_origem, valor)
+    registrar_historico(
+        conta_origem,
+        "Transferência",
+        valor,
+        categoria,
+        destino=conta_destino["chave_pix"],
+        detalhes={"pontos_ganhos": pontos_ganhos},
+    )
     print(
         f"Transferência de R$ {valor:.2f} de {conta_origem['nome']} "
         f"para {conta_destino['nome']} realizada com sucesso."
@@ -125,15 +143,17 @@ def relatorio_categoria():
     if conta is None:
         return
 
-    if not conta["historico"]:
-        print("Não há gastos registrados ainda.")
-        return
-
     totais = {}
     total_geral = 0.0
     for movimento in conta["historico"]:
+        if movimento["categoria"] is None:
+            continue
         totais[movimento["categoria"]] = totais.get(movimento["categoria"], 0.0) + movimento["valor"]
         total_geral += movimento["valor"]
+
+    if not totais:
+        print("Não há gastos registrados ainda.")
+        return
 
     print(f"\nRelatório de gastos de {conta['nome']}:")
     for categoria, total in totais.items():
