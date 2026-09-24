@@ -1,5 +1,5 @@
 from clientes import selecionar_conta
-from operacoes import ler_valor
+from operacoes import ler_valor, registrar_historico
 
 
 def comprar_no_credito():
@@ -18,6 +18,7 @@ def comprar_no_credito():
         return
 
     conta["saldo_fatura"] += valor
+    registrar_historico(conta, "Compra no Crédito", valor, detalhes={"estabelecimento": estabelecimento})
     print(f"Compra de R$ {valor:.2f} em {estabelecimento} lançada na fatura.")
 
 
@@ -34,9 +35,11 @@ def pagar_fatura():
         print("Saldo insuficiente para pagar a fatura.")
         return
 
-    print(f"Fatura de R$ {conta['saldo_fatura']:.2f} paga com sucesso.")
-    conta["saldo"] -= conta["saldo_fatura"]
+    valor_pago = conta["saldo_fatura"]
+    conta["saldo"] -= valor_pago
     conta["saldo_fatura"] = 0.0
+    registrar_historico(conta, "Pagamento de Fatura", valor_pago)
+    print(f"Fatura de R$ {valor_pago:.2f} paga com sucesso.")
 
 
 def menu_cartao():

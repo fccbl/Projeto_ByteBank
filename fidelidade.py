@@ -1,4 +1,5 @@
 from clientes import selecionar_conta
+from operacoes import registrar_historico
 
 
 def consultar_pontos():
@@ -28,6 +29,7 @@ def resgatar_cashback():
     cashback = (pontos / 100) * 5
     conta["pontos"] -= pontos
     conta["saldo"] += cashback
+    registrar_historico(conta, "Resgate de Cashback", cashback, detalhes={"pontos_usados": pontos})
     print(f"Resgate de {pontos} pontos convertido em R$ {cashback:.2f} de cashback.")
 
 

@@ -1,5 +1,5 @@
 from clientes import selecionar_conta
-from operacoes import ler_valor
+from operacoes import ler_valor, registrar_historico
 
 TAXAS_CAMBIO = {"USD": 5.50, "EUR": 6.00, "BTC": 350000.0}
 
@@ -25,6 +25,7 @@ def comprar_moeda_estrangeira():
     quantidade = valor_brl / TAXAS_CAMBIO[moeda]
     conta["saldo"] -= valor_brl
     conta["saldos_moedas"][moeda] = conta["saldos_moedas"].get(moeda, 0.0) + quantidade
+    registrar_historico(conta, "Compra de Moeda", valor_brl, detalhes={"moeda": moeda, "quantidade": quantidade})
     print(f"Compra de {quantidade:.6f} {moeda} realizada.")
 
 
@@ -57,6 +58,7 @@ def vender_moeda_estrangeira():
     valor_brl = quantidade * TAXAS_CAMBIO[moeda]
     conta["saldos_moedas"][moeda] -= quantidade
     conta["saldo"] += valor_brl
+    registrar_historico(conta, "Venda de Moeda", valor_brl, detalhes={"moeda": moeda, "quantidade": quantidade})
     print(f"Venda de {quantidade:.6f} {moeda} convertida em R$ {valor_brl:.2f}.")
 
 

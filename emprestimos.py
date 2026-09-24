@@ -1,5 +1,5 @@
 from clientes import selecionar_conta
-from operacoes import ler_valor
+from operacoes import ler_valor, registrar_historico
 
 
 def ler_numero_parcelas():
@@ -61,14 +61,14 @@ def contratar_emprestimo():
 
     valor_parcela = valor / parcelas
     conta["saldo"] += valor
-    conta["emprestimos"].append(
-        {
-            "valor_total": valor,
-            "parcelas": parcelas,
-            "valor_parcela": valor_parcela,
-            "parcelas_pagas": 0,
-        }
-    )
+    novo_emprestimo = {
+        "valor_total": valor,
+        "parcelas": parcelas,
+        "valor_parcela": valor_parcela,
+        "parcelas_pagas": 0,
+    }
+    conta["emprestimos"].append(novo_emprestimo)
+    registrar_historico(conta, "Empréstimo Contratado", valor, detalhes={"emprestimo": novo_emprestimo})
     print(f"Empréstimo de R$ {valor:.2f} aprovado em {parcelas}x de R$ {valor_parcela:.2f}.")
 
 
@@ -91,6 +91,7 @@ def pagar_parcela_emprestimo():
     conta["saldo"] -= valor_parcela
     emprestimo["parcelas_pagas"] += 1
     restantes = emprestimo["parcelas"] - emprestimo["parcelas_pagas"]
+    registrar_historico(conta, "Pagamento de Parcela", valor_parcela, detalhes={"emprestimo": emprestimo})
     print(f"Parcela de R$ {valor_parcela:.2f} paga. Restam {restantes} parcela(s).")
 
 
