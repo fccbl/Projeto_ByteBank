@@ -1,5 +1,7 @@
 from clientes import menu_clientes
 from operacoes import consultar_saldo, depositar, sacar, transferir, relatorio_categoria
+from extrato import menu_extrato
+from pagamentos import menu_pagamentos
 from cofrinhos import menu_cofrinhos
 from cartao import menu_cartao
 from cambio import menu_cambio
@@ -14,13 +16,15 @@ def exibir_menu():
     print("[3] Sacar")
     print("[4] Transferir (PIX)")
     print("[5] Gerenciar Clientes")
-    print("[6] Cofrinhos de Investimento")
-    print("[7] Relatório de Gastos por Categoria")
-    print("[8] Cartão de Crédito")
-    print("[9] Câmbio de Moedas")
-    print("[10] Pontos e Cashback")
-    print("[11] Empréstimos")
-    print("[12] Sair")
+    print("[6] Extrato e Estorno")
+    print("[7] Fila de Pagamentos Agendados")
+    print("[8] Cofrinhos de Investimento")
+    print("[9] Relatório de Gastos por Categoria")
+    print("[10] Cartão de Crédito")
+    print("[11] Câmbio de Moedas")
+    print("[12] Pontos e Cashback")
+    print("[13] Empréstimos")
+    print("[14] Sair")
 
 
 def main():
@@ -39,18 +43,22 @@ def main():
         elif opcao == "5":
             menu_clientes()
         elif opcao == "6":
-            menu_cofrinhos()
+            menu_extrato()
         elif opcao == "7":
-            relatorio_categoria()
+            menu_pagamentos()
         elif opcao == "8":
-            menu_cartao()
+            menu_cofrinhos()
         elif opcao == "9":
-            menu_cambio()
+            relatorio_categoria()
         elif opcao == "10":
-            menu_fidelidade()
+            menu_cartao()
         elif opcao == "11":
-            menu_emprestimos()
+            menu_cambio()
         elif opcao == "12":
+            menu_fidelidade()
+        elif opcao == "13":
+            menu_emprestimos()
+        elif opcao == "14":
             print("\nObrigado por usar o ByteBank. Até logo!")
             break
         else:
