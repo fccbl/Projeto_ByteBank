@@ -1,4 +1,5 @@
-from clientes import menu_clientes
+from clientes import menu_clientes, contas
+from persistencia import carregar_contas_txt, salvar_contas_txt
 from operacoes import consultar_saldo, depositar, sacar, transferir, relatorio_categoria
 from extrato import menu_extrato
 from pagamentos import menu_pagamentos
@@ -28,6 +29,7 @@ def exibir_menu():
 
 
 def main():
+    carregar_contas_txt()
     while True:
         exibir_menu()
         opcao = input("\n> Digite a operação desejada: ")
@@ -59,6 +61,7 @@ def main():
         elif opcao == "13":
             menu_emprestimos()
         elif opcao == "14":
+            salvar_contas_txt(contas)
             print("\nObrigado por usar o ByteBank. Até logo!")
             break
         else:
